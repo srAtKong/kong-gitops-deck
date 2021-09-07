@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -35,17 +35,19 @@ jobs:
         run: |
           deck ping --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }}
           
-      - name: Where am I
-        run: |
-          pwd
-          
-      - name: What can I see
-        run: |
-          ls
-          
       - name: Validate the Declarative Config File
         run: |
           deck validate --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml
+          
+      - name: View configuration drift
+        run: |
+          deck diff --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml -w ${{ secrets.KONG_WORKSPACE }}
+          
+      - name: Apply Configuration
+        run: |
+          deck sync --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml --workspace ${{ secrets.KONG_WORKSPACE }}
+          
+      
   
   
   
