@@ -35,4 +35,4 @@ jobs:
           
       - name: Dump Configuration
         run: |
-          deck dump --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -o kong/kong.yaml --workspace ${{ secrets.KONG_WORKSPACE }}
+          deck dump --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -o kong/kong.yaml --workspace ${{ secrets.KONG_WORKSPACE }} --yes
