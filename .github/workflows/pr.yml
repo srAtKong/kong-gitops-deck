@@ -1,6 +1,6 @@
 # This is a basic workflow to demonstrate Gitops using Kong
 
-name: Diff and Validate Declarative Config on PR
+name: Validate Config on PR
 
 # Controls when the workflow will run
 on:
