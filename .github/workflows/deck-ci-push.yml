@@ -1,6 +1,6 @@
 # This is a basic workflow to demonstrate Gitops using Kong
 
-name: Deck-CI
+name: Deck-CI on Push
 
 # Controls when the workflow will run
 on:
