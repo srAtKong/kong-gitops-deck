@@ -1,0 +1,39 @@
+# This is a basic workflow to demonstrate Gitops using Kong
+
+name: Diff and Validate Declarative Config on PR
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  pull_request:
+    branches: [ main ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "deploy"
+  validate:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        
+      - name: Install Deck  
+        run: |
+          curl -sL https://github.com/Kong/deck/releases/download/v1.7.0/deck_1.7.0_linux_amd64.tar.gz -o deck.tar.gz
+          tar -xf deck.tar.gz -C /tmp
+          sudo cp /tmp/deck /usr/local/bin/
+          
+      - name: Check connectivity to Kong Control Plane
+        run: |
+          deck ping --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }}
+          
+      - name: Validate the Declarative Config File
+        run: |
+          deck validate --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml
+          
+      - name: View configuration drift
+        run: |
+          deck diff --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml -w ${{ secrets.KONG_WORKSPACE }}
