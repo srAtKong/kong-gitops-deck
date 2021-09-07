@@ -31,9 +31,21 @@ jobs:
           tar -xf deck.tar.gz -C /tmp
           sudo cp /tmp/deck /usr/local/bin/
           
-      - name: DecK ping
+      - name: Check connectivity to Kong Control Plane
         run: |
           deck ping --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }}
+          
+      - name: Where am I
+        run: |
+          pwd
+          
+      - name: What can I see
+        run: |
+          ls
+          
+      - name: Validate the Declarative Config File
+        run: |
+          deck validate --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml
   
   
   
