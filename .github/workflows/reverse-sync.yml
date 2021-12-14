@@ -27,15 +27,15 @@ jobs:
           
       - name: Check connectivity to Kong Control Plane
         run: |
-          deck ping --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }}
+          deck ping --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} --tls-skip-verify
           
       - name: View configuration drift
         run: |
-          deck diff --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml -w ${{ secrets.KONG_WORKSPACE }}
+          deck diff --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -s kong/kong.yaml -w ${{ secrets.KONG_WORKSPACE }} --tls-skip-verify
           
       - name: Dump Configuration
         run: |
-          deck dump --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -o kong/kong.yaml --workspace ${{ secrets.KONG_WORKSPACE }} --yes
+          deck dump --headers "kong-admin-token:${{ secrets.KONG_ADMIN_TOKEN }}" --kong-addr ${{ secrets.KONG_ADDR }} -o kong/kong.yaml --workspace ${{ secrets.KONG_WORKSPACE }} --yes --tls-skip-verify
           
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
