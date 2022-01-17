@@ -40,7 +40,7 @@ services:
     name: route-53
     path_handling: v0
     paths:
-    - /r53
+    - /route53
     preserve_host: false
     protocols:
     - http
