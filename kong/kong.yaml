@@ -40,7 +40,7 @@ services:
     name: test-route
     path_handling: v0
     paths:
-    - /test
+    - /test2
     preserve_host: false
     protocols:
     - http
