@@ -1,0 +1,6 @@
+consumers:
+- username: consumer1
+  custom_id: consumer1
+  keyauth_credentials:
+  - key: consumer1key
+  
