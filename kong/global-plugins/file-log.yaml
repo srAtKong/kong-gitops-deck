@@ -1,0 +1,12 @@
+plugins:
+- config:
+    custom_fields_by_lua: {}
+    path: /dev/stdout
+    reopen: false
+  enabled: true
+  name: file-log
+  protocols:
+  - grpc
+  - grpcs
+  - http
+  - https
