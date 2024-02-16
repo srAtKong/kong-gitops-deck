@@ -1,5 +1,5 @@
 _format_version: "3.0"
-_workspace: ${{ env "KONG_WORKSPACE" }}
+_workspace: ${{ env "DECK_KONG_WORKSPACE" }}
 services:
 - connect_timeout: 60000
   host: httpbin.org
